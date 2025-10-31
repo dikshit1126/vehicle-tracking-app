@@ -1,0 +1,241 @@
+/* App.css - Main Application Styles */
+
+/* Base styles */
+body, html, #root {
+  height: 100%;
+  margin: 0;
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  background: #f6f7fb;
+  color: #222;
+}
+
+/* App container */
+.app-container {
+  display: flex;
+  height: 100vh;
+  background: #f6f7fb;
+}
+
+/* Control panel styles */
+.control-panel {
+  width: 370px;
+  min-width: 320px;
+  background: #fff;
+  box-shadow: 2px 0 16px 0 rgba(60,72,88,0.08);
+  padding: 2.5rem 2rem 2rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  border-right: 1px solid #e3e7ef;
+}
+
+.control-panel h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #2a3950;
+  border-bottom: 1px solid #e3e7ef;
+  padding-bottom: 0.5rem;
+}
+
+/* Form styles */
+.input-group {
+  margin-bottom: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.input-group label {
+  font-weight: 600;
+  color: #2a3950;
+  margin-bottom: 0.2rem;
+}
+
+.input-group input[type="text"],
+.input-group input[type="number"] {
+  padding: 0.7rem 1rem;
+  border: 1px solid #cfd8e3;
+  border-radius: 6px;
+  font-size: 1rem;
+  background: #f3f6fa;
+  color: #222;
+  transition: border 0.2s;
+}
+
+.input-group input:focus {
+  border: 1.5px solid #3b82f6;
+  outline: none;
+  background: #fff;
+}
+
+.input-group small {
+  color: #6b7a90;
+  font-size: 0.92rem;
+}
+
+button {
+  width: 100%;
+  padding: 0.9rem 0;
+  background: linear-gradient(90deg, #2563eb 0%, #1e40af 100%);
+  color: #fff;
+  font-size: 1.08rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  margin-top: 0.5rem;
+  margin-bottom: 0.2rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px 0 rgba(60,72,88,0.07);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+button:active {
+  background: linear-gradient(90deg, #1e40af 0%, #2563eb 100%);
+}
+
+button[disabled], button[aria-busy="true"] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Error message */
+.error {
+  background: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+  border-radius: 6px;
+  padding: 0.7rem 1rem;
+  margin: 0.7rem 0 0.5rem 0;
+  font-size: 1rem;
+}
+
+/* Route information */
+.route-info {
+  background: #f3f6fa;
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  margin-top: 1rem;
+  box-shadow: 0 1px 4px 0 rgba(60,72,88,0.04);
+}
+
+.route-info h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+  color: #2563eb;
+}
+
+.route-info p {
+  margin: 0.2rem 0;
+  color: #2a3950;
+  font-size: 14px;
+}
+
+/* Map container */
+.map-container {
+  flex: 1 1 0%;
+  background: #f6f7fb;
+  min-width: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Loading states */
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 1.2rem;
+  color: #4a5568;
+}
+
+/* Responsive design */
+@media (max-width: 900px) {
+  .app-container {
+    flex-direction: column;
+  }
+
+  .control-panel {
+    width: 100%;
+    min-width: unset;
+    border-right: none;
+    border-bottom: 1px solid #e3e7ef;
+    box-shadow: none;
+    padding: 1.5rem 1rem 1rem 1rem;
+  }
+
+  .map-container {
+    min-height: 350px;
+  }
+}
+
+/* Animation for live updates counter */
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+
+.live-update-count {
+  animation: pulse 1.5s infinite;
+  display: inline-block;
+  font-weight: bold;
+}
+
+/* GPS module */
+.gps-module {
+  background: #f3f6fa;
+  border-radius: 8px;
+  padding: 1.2rem 1rem 1rem 1rem;
+  margin-top: 1.2rem;
+  box-shadow: 0 1px 4px 0 rgba(60,72,88,0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.gps-module h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.08rem;
+  color: #2563eb;
+}
+
+.gps-module .input-row {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.gps-module label {
+  font-weight: 500;
+  color: #2a3950;
+}
+
+.gps-module input[type="number"] {
+  width: 70px;
+  padding: 0.5rem 0.7rem;
+  border-radius: 5px;
+  border: 1px solid #cfd8e3;
+  background: #fff;
+  font-size: 1rem;
+}
+
+.gps-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.gps-status {
+  font-size: 0.98rem;
+  color: #2a3950;
+}
+
+/* Map loading */
+.map-loading {
+  color: #6b7a90;
+  font-size: 1.2rem;
+  text-align: center;
+  margin-top: 30vh;
+}

@@ -1,0 +1,126 @@
+/* VehicleMap.css */
+
+/* Fullscreen Map Container */
+.vehicle-map-container,
+.leaflet-container {
+  height: 100vh !important;
+  width: 100% !important;
+  position: relative;
+  z-index: 0;
+}
+
+/* Map Loading Screen */
+.map-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: #555;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+/* Route Path Styling */
+.route-path {
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-opacity: 0.8;
+}
+
+/* Popup Styling */
+.vehicle-popup .leaflet-popup-content-wrapper {
+  border-radius: 6px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  padding: 1px; /* Fixes visual overflow */
+}
+
+.vehicle-popup .leaflet-popup-content {
+  margin: 10px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.vehicle-popup h3 {
+  margin: 0 0 8px 0;
+  color: #3b82f6;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.vehicle-popup p {
+  margin: 4px 0;
+  color: #333;
+}
+
+/* Marker Animations */
+.leaflet-marker-icon {
+  transition: transform 0.3s ease;
+}
+
+/* Waypoint Marker Styling */
+.waypoint-marker {
+  background: none !important;
+  border: none !important;
+}
+
+.waypoint-marker .waypoint-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  width: 24px;
+  height: 24px;
+  transform: translateY(-12px);
+}
+
+.waypoint-dot {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: #007bff;
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5);
+  top: 0;
+  left: 6px;
+  z-index: 600;
+}
+
+.waypoint-label {
+  position: absolute;
+  font-size: 10px;
+  font-weight: bold;
+  color: white;
+  background: #4285f4;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  bottom: 0;
+  right: 0;
+  z-index: 601;
+  border: 1px solid #ddd;
+}
+
+/* Waypoint Popup Specifics */
+.waypoint-popup .leaflet-popup-content {
+  min-width: 120px;
+}
+
+.waypoint-popup b {
+  color: #4285f4;
+  display: block;
+  margin-bottom: 4px;
+}
+
+/* Hover Animation for Waypoints */
+.leaflet-marker-icon.waypoint-marker {
+  transition: all 0.3s ease;
+}
+
+.leaflet-marker-icon.waypoint-marker:hover {
+  transform: scale(1.2);
+  z-index: 1000;
+}
