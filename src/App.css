@@ -239,3 +239,227 @@ button[disabled], button[aria-busy="true"] {
   text-align: center;
   margin-top: 30vh;
 }
+
+/* --- Neon Black Theme for Dashboard --- */
+.neon-bg {
+  background: #0a0a13 !important;
+  min-height: 100vh;
+  display: flex;
+}
+
+.neon-glass {
+  background: rgba(20, 20, 30, 0.92);
+  box-shadow: 0 4px 32px 0 #00ffe7, 0 2px 12px #ff3c7e33;
+  border-radius: 18px;
+  border: 1.5px solid #232946;
+  backdrop-filter: blur(8px);
+}
+
+.neon-section {
+  margin-bottom: 2rem;
+  padding: 1.2rem 1.5rem;
+  border-radius: 14px;
+  background: rgba(20, 20, 30, 0.7);
+  box-shadow: 0 2px 12px 0 #00ffe733;
+}
+
+.neon-title {
+  color: #ff3c7e;
+  font-size: 2.1rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-shadow: 0 0 8px #00ffe7, 0 2px 16px #ff3c7e;
+  margin-bottom: 1.2rem;
+}
+
+.neon-btn, .neon-input, .neon-error {
+  font-family: inherit;
+}
+
+.neon-btn {
+  background: linear-gradient(90deg,#00ffe7,#ff3c7e);
+  color: #fff;
+  font-weight: 700;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 2px 16px #00ffe7cc;
+  padding: 0.9rem 0;
+  margin-top: 0.7rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.neon-btn:active {
+  background: linear-gradient(90deg,#ff3c7e,#00ffe7);
+}
+
+.neon-input {
+  background: #181a20;
+  color: #00ffe7;
+  border: 1.5px solid #ff3c7e;
+  border-radius: 8px;
+  padding: 0.7rem 1rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  box-shadow: 0 0 8px #00ffe7cc inset;
+  outline: none;
+  transition: border 0.2s, box-shadow 0.2s;
+}
+.neon-input:focus {
+  border: 2px solid #00ffe7;
+  box-shadow: 0 0 16px #ff3c7e99;
+}
+
+.neon-error {
+  color: #ff3c7e;
+  background: #181a20;
+  border: 1.5px solid #ff3c7e;
+  border-radius: 8px;
+  padding: 0.7rem 1rem;
+  margin: 0.7rem 0 0.5rem 0;
+  font-size: 1rem;
+  text-align: center;
+  box-shadow: 0 0 8px #ff3c7e99;
+}
+
+.status-dot {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  margin-right: 0.5em;
+  box-shadow: 0 0 8px #00ffe7, 0 0 16px #ff3c7e;
+  vertical-align: middle;
+}
+.status-dot.online {
+  background: #00ffe7;
+  box-shadow: 0 0 8px #00ffe7, 0 0 16px #00ffe7;
+}
+.status-dot.offline {
+  background: #ff3c7e;
+  box-shadow: 0 0 8px #ff3c7e, 0 0 16px #ff3c7e;
+}
+
+.sidebar {
+  min-width: 270px;
+  max-width: 320px;
+  padding: 2.2rem 1.2rem 2.2rem 2.2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.2rem;
+  height: calc(100vh - 0px);
+  margin: 0;
+  border-radius: 0 18px 18px 0;
+  z-index: 2;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+.logo.neon-glow {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  box-shadow: 0 0 24px #00ffe7, 0 0 32px #ff3c7e;
+}
+
+.user-info, .selector {
+  width: 100%;
+}
+
+.control-panel {
+  min-width: 340px;
+  max-width: 420px;
+  margin: 2.2rem 2.2rem 2.2rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.2rem;
+  height: calc(100vh - 0px);
+  margin: 0;
+  border-radius: 18px 0 0 18px;
+  z-index: 2;
+}
+
+.map-area {
+  flex: 1;
+  min-width: 0;
+  margin: 2.2rem 2.2rem 2.2rem 0;
+  border-radius: 18px;
+  box-shadow: 0 2px 16px #00ffe7cc;
+  background: #181a20;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
+  min-height: 0;
+  height: 100vh;
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .dashboard-container {
+    flex-direction: column;
+  }
+  .sidebar, .control-panel, .map-area {
+    margin: 1.2rem 0;
+    max-width: 100vw;
+  }
+}
+
+@media (max-width: 1200px) {
+  .dashboard-container {
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+  }
+  .sidebar, .control-panel, .map-area {
+    max-width: 100vw;
+    min-width: 0;
+    width: 100vw;
+    height: auto;
+    margin: 0 0 1.2rem 0;
+    border-radius: 18px;
+  }
+  .map-area {
+    min-height: 350px;
+    height: 60vh;
+  }
+}
+
+/* --- Map Maximization & Responsive Layout Fixes --- */
+.dashboard-container {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  width: 100vw;
+  background: #0a0a13;
+  position: relative;
+}
+
+/* Remove extra margin from neon-section in map-area */
+.map-area.neon-section {
+  margin-bottom: 0;
+  margin-top: 0;
+  margin-left: 0;
+  margin-right: 0;
+  padding: 0;
+}
+
+/* Ensure Leaflet map fills the map-area */
+.map-area .leaflet-container {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0;
+  min-width: 0;
+  border-radius: 18px;
+}
+
+/* Hide footer live-location if not needed */
+footer.live-location {
+  display: none;
+}
