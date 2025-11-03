@@ -110,16 +110,41 @@ const GPSModule = ({ simulatedPath }) => {
       <h3>GPS Module</h3>
       <div className="input-row">
         <label>Vehicle ID:</label>
-        <input type="number" value={vehicleId} onChange={(e) => setVehicleId(e.target.value)} min={1} />
+        <input
+          type="number"
+          id="vehicleId"
+          value={vehicleId}
+          onChange={e => setVehicleId(e.target.value)}
+          placeholder="Enter Vehicle ID"
+          style={{ border: vehicleId ? '2px solid #f472b6' : '1px solid #cfd8e3', background: '#fff', color: '#222' }}
+          disabled={false}
+        />
       </div>
       <div className="input-row">
         <label>Interval (ms):</label>
-        <input type="number" value={intervalMs} onChange={(e) => setIntervalMs(e.target.value)} min={1000} />
+        <input
+          type="number"
+          id="interval"
+          value={intervalMs}
+          onChange={e => setIntervalMs(e.target.value)}
+          placeholder="Interval (ms)"
+          style={{ background: '#fff', color: '#222' }}
+          disabled={false}
+        />
       </div>
       <div className="gps-controls">
         <button type="button" onClick={toggleTracking}>{running ? 'Stop Tracking' : 'Start Tracking'}</button>
         <button type="button" onClick={sendOnce}>Send Current Position</button>
-        <button type="button" onClick={sendSimulatedPosition} disabled={!simulatedPath || simulatedPath.length === 0}>
+        <button
+          onClick={sendSimulatedPosition}
+          disabled={!(simulatedPath && simulatedPath.length > 0)}
+          style={{
+            background: simulatedPath && simulatedPath.length > 0 ? 'linear-gradient(90deg,#6366f1,#f472b6)' : '#a5b4fc',
+            color: '#fff',
+            cursor: simulatedPath && simulatedPath.length > 0 ? 'pointer' : 'not-allowed',
+            opacity: simulatedPath && simulatedPath.length > 0 ? 1 : 0.7
+          }}
+        >
           Send Simulated Route Position
         </button>
       </div>
@@ -142,3 +167,4 @@ GPSModule.defaultProps = {
 };
 
 export default GPSModule;
+
