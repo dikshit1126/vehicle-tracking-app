@@ -23,10 +23,25 @@ const DefaultIcon = L.icon({
 });
 L.Marker.prototype.options.icon = DefaultIcon;
 
-// ✅ Utility: Create custom icon
+// ✅ Utility: Create custom icon (fix for Vite static assets)
 const createIcon = (iconUrl, iconSize = [32, 32]) => {
+  // If iconUrl is an imported image, use .src or .default if needed
+  let url = iconUrl;
+  if (typeof iconUrl === 'object' && iconUrl !== null) {
+    url = iconUrl.default || iconUrl.src || iconUrl;
+  }
+  // Fallback for Vite static assets
+  if (typeof url !== 'string') {
+    url = String(url);
+  }
+  // If still not a valid URL, use import.meta.url
+  if (!url.startsWith('http') && !url.startsWith('/')) {
+    try {
+      url = new URL(url, import.meta.url).href;
+    } catch {}
+  }
   return L.icon({
-    iconUrl,
+    iconUrl: url,
     iconSize,
     iconAnchor: [iconSize[0] / 2, iconSize[1]],
     popupAnchor: [0, -iconSize[1]],
@@ -45,11 +60,10 @@ function FitBounds({ path }) {
   return null;
 }
 
-const VehicleMap = ({ path, vehiclePosition, waypoints, distance, duration }) => {
+const VehicleMap = ({ path, vehiclePosition, waypoints, distance, duration, vehicleIcon }) => {
   const mapRef = useRef(null);
   const vehicleMarkerRef = useRef(null);
   const [currentPositionIndex, setCurrentPositionIndex] = useState(0);
-  const [isAnimating, setIsAnimating] = useState(false);
   const [placeName, setPlaceName] = useState('');
 
   // CSS-based waypoint marker
@@ -78,14 +92,15 @@ const VehicleMap = ({ path, vehiclePosition, waypoints, distance, duration }) =>
       );
   }, [path]);
 
-  // Animation effect for vehicle movement
+  // --- Vehicle animation: always animates when path/duration changes ---
   useEffect(() => {
-    if (!isAnimating || !path || path.length < 2) return;
-    let currentIndex = currentPositionIndex;
-    let animationFrame;
+    if (!path || path.length < 2 || !duration) return;
+    let currentIndex = 0;
+    let timeoutId;
+    const totalPoints = path.length;
+    const interval = (duration * 1000) / totalPoints;
     const animate = () => {
-      if (!isAnimating) return;
-      currentIndex = (currentIndex + 1) % path.length;
+      currentIndex = (currentIndex + 1) % totalPoints;
       setCurrentPositionIndex(currentIndex);
       if (vehicleMarkerRef.current) {
         vehicleMarkerRef.current.setLatLng(path[currentIndex]);
@@ -96,21 +111,17 @@ const VehicleMap = ({ path, vehiclePosition, waypoints, distance, duration }) =>
           easeLinearity: 0.1,
         });
       }
-      if (currentIndex < path.length - 1) {
-        animationFrame = requestAnimationFrame(animate);
-      } else {
-        setIsAnimating(false);
-      }
+      timeoutId = setTimeout(animate, interval);
     };
-    animationFrame = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(animationFrame);
-  }, [isAnimating, path, currentPositionIndex]);
+    timeoutId = setTimeout(animate, interval);
+    return () => clearTimeout(timeoutId);
+  }, [path, duration]);
 
   // Live reverse geocode for current vehicle position
   useEffect(() => {
     let intervalId;
     const updateLocation = () => {
-      const pos = isAnimating && path && path[currentPositionIndex]
+      const pos = path && path[currentPositionIndex]
         ? path[currentPositionIndex]
         : vehiclePosition || (path && path[0]);
       if (pos && pos.length === 2) {
@@ -122,7 +133,7 @@ const VehicleMap = ({ path, vehiclePosition, waypoints, distance, duration }) =>
     updateLocation();
     intervalId = setInterval(updateLocation, 5000); // Update every 5 seconds
     return () => clearInterval(intervalId);
-  }, [isAnimating, currentPositionIndex, vehiclePosition, path]);
+  }, [currentPositionIndex, vehiclePosition, path]);
 
   // Handle empty route
   if (!path || path.length === 0) {
@@ -133,9 +144,7 @@ const VehicleMap = ({ path, vehiclePosition, waypoints, distance, duration }) =>
   const stop = path[path.length - 1];
   const isRoundTrip = JSON.stringify(start) === JSON.stringify(stop);
   const currentPosition =
-    isAnimating && path[currentPositionIndex]
-      ? path[currentPositionIndex]
-      : vehiclePosition || start;
+    path[currentPositionIndex] || vehiclePosition || start;
 
   return (
     <div style={{ position: 'relative', height: '100vh', width: '100%' }}>
@@ -203,7 +212,7 @@ const VehicleMap = ({ path, vehiclePosition, waypoints, distance, duration }) =>
         {/* Vehicle Marker */}
         <Marker
           position={currentPosition}
-          icon={createIcon(vehicleIconImg)}
+          icon={createIcon(vehicleIcon, [48, 48])}
           ref={vehicleMarkerRef}
         >
           <Popup>
@@ -234,28 +243,6 @@ const VehicleMap = ({ path, vehiclePosition, waypoints, distance, duration }) =>
           </Marker>
         )}
       </MapContainer>
-      {/* Start/Stop Button */}
-      <button
-        onClick={() => setIsAnimating((prev) => !prev)}
-        style={{
-          position: 'absolute',
-          top: '10px',
-          left: '10px',
-          zIndex: 1000,
-          padding: '8px 16px',
-          backgroundColor: isAnimating ? '#e63946' : '#4CAF50',
-          color: 'white',
-          border: 'none',
-          borderRadius: '6px',
-          cursor: 'pointer',
-          fontWeight: 'bold',
-          boxShadow: '0 2px 6px rgba(0,0,0,0.2)',
-        }}
-        aria-pressed={isAnimating}
-        aria-label={isAnimating ? 'Stop Vehicle Animation' : 'Start Vehicle Animation'}
-      >
-        {isAnimating ? 'Stop Vehicle' : 'Start Vehicle'}
-      </button>
     </div>
   );
 };
@@ -268,6 +255,7 @@ VehicleMap.propTypes = {
   waypoints: PropTypes.array,
   distance: PropTypes.number,
   duration: PropTypes.number,
+  vehicleIcon: PropTypes.string,
 };
 
 VehicleMap.defaultProps = {
